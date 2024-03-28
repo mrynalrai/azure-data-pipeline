@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpFunctionApp", "HttpFunctionApp\HttpFunctionApp.csproj", "{7860389D-FDB4-4CE1-8C59-207969FF755B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventGridFunctionApp", "EventGridFunctionApp\EventGridFunctionApp.csproj", "{3A13A70C-308F-4D65-B329-B6F897757FAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListenEventGrid", "EventGridFunctionApp\ListenEventGrid.csproj", "{3A13A70C-308F-4D65-B329-B6F897757FAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
