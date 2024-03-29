@@ -41,12 +41,13 @@ namespace HttpFunctionApp
             }
             BlobContainerClient tenantContainerClient = new BlobContainerClient(tenantContainerSasUri);
 
-            string csvContent = "Name, Age\nJohn, 30\nAlice, 25";
+            // string csvContent = "Name, Age\nJohn, 30\nAlice, 25";
+            string txtContent = "Name; Age\nJohn; 30\nAlice; 25";
 
             try
             {
                 // Create a MemoryStream to store the CSV content
-                using (MemoryStream csvStream = new MemoryStream(Encoding.UTF8.GetBytes(csvContent)))
+                using (MemoryStream csvStream = new MemoryStream(Encoding.UTF8.GetBytes(txtContent)))
                 {
                     // Create a MemoryStream to store the zipped content
                     using (MemoryStream zipStream = new MemoryStream())
@@ -55,7 +56,8 @@ namespace HttpFunctionApp
                         using (ZipArchive zip = new ZipArchive(zipStream, ZipArchiveMode.Create, leaveOpen: true))
                         {
                             // Add the CSV file to the zip archive
-                            var entry = zip.CreateEntry("dummy.csv", CompressionLevel.Optimal);
+                            // var entry = zip.CreateEntry("dummy.csv", CompressionLevel.Optimal);
+                            var entry = zip.CreateEntry("dummy.txt", CompressionLevel.Optimal);
                             using (Stream entryStream = entry.Open())
                             {
                                 await csvStream.CopyToAsync(entryStream);
