@@ -2,7 +2,7 @@
 
 namespace ListenEventGrid.Models
 {
-    public class CsvToPickUpMapper : ClassMap<Info>
+    public class CsvToPickUpMapper : ClassMap<CreateInfoDto>
     {
         public CsvToPickUpMapper()
         {

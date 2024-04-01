@@ -1,4 +1,4 @@
-﻿
+﻿using ListenEventGrid.Services.InfoService;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -12,6 +12,10 @@ namespace ListenEventGrid
         public override void Configure(IFunctionsHostBuilder builder)
         {
             string sqlConnectionString = Environment.GetEnvironmentVariable("SqlConnectionString");
+            builder.Services.AddSingleton<IInfoService>(sp =>
+            {
+                return new InfoService(sqlConnectionString);
+            });
         }
     }
 }
