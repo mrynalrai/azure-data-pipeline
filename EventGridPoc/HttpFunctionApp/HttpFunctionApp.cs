@@ -29,7 +29,7 @@ namespace HttpFunctionApp
 
             if (Uri.TryCreate(tenantContainerSasString, UriKind.Absolute, out tenantContainerSasUri))
             {
-                Console.WriteLine("Uri created successfully: " + tenantContainerSasUri);
+                log.LogInformation("Uri created successfully: " + tenantContainerSasUri);
             }
             else
             {
@@ -78,7 +78,6 @@ namespace HttpFunctionApp
                 }
             } catch (Exception ex)
             {
-                log.LogError(ex.Message);
                 return new ObjectResult(new { error = "InternalError", message = ex.Message })
                 {
                     StatusCode = StatusCodes.Status500InternalServerError
