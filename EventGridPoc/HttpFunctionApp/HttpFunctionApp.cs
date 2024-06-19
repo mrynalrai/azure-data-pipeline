@@ -43,11 +43,12 @@ namespace HttpFunctionApp
 
             // string csvContent = "Name, Age\nJohn, 30\nAlice, 25";
             string txtContent = "Name; Age\nJohn; 30\nAlice; 25";
-
+            // Generate large dataset
+            string largeContent = GenerateLargeDataset(10000);
             try
             {
                 // Create a MemoryStream to store the text content
-                using (MemoryStream txtStream = new MemoryStream(Encoding.UTF8.GetBytes(txtContent)))
+                using (MemoryStream txtStream = new MemoryStream(Encoding.UTF8.GetBytes(largeContent)))
                 {
                     // Create a MemoryStream to store the zipped content
                     using (MemoryStream zipStream = new MemoryStream())
@@ -87,6 +88,25 @@ namespace HttpFunctionApp
             
 
             return new OkObjectResult("Success");
+        }
+        
+        static string GenerateLargeDataset(int numberOfRows)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Name; Age");
+
+            string[] names = { "John", "Alice", "Bob", "Eve", "Jane", "Tom", "Sam", "Sue", "Joe", "Ann", "Jack", "Mary", "Bill", "Nina", "Chris", "Diana", "Paul", "Ruth", "Matt", "Liz", "Adam", "Rose", "Mark", "Mia", "Luke", "Beth", "Ryan", "Fay", "Phil", "Ivy", "Owen", "Amy", "Kyle", "Gina", "Sean", "Tara", "Ben", "Jill", "Eric", "Kara", "Todd", "Eva", "Glenn", "Maya", "Greg", "Jade", "Cody", "Lynn", "Max", "Ella", "Dean", "Cara", "Eli", "Leah", "Drew", "Mona", "Ross", "Nell", "Gabe", "Hope", "Leo", "Nora", "Wade", "Kate", "Reed", "Tina", "Vince", "Meg", "Kurt", "Sara", "Fred", "Lila", "Chad", "Kira", "Neil", "Ruby", "Dane", "Rita", "Zane", "Lana" };
+
+            Random random = new Random();
+
+            for (int i = 0; i < numberOfRows; i++)
+            {
+                string name = names[random.Next(names.Length)];
+                int age = random.Next(18, 100);
+                sb.AppendLine($"{name}; {age}");
+            }
+
+            return sb.ToString();
         }
     }
 }
