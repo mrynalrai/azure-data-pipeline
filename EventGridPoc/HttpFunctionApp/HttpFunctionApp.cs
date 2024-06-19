@@ -46,8 +46,8 @@ namespace HttpFunctionApp
 
             try
             {
-                // Create a MemoryStream to store the CSV content
-                using (MemoryStream csvStream = new MemoryStream(Encoding.UTF8.GetBytes(txtContent)))
+                // Create a MemoryStream to store the text content
+                using (MemoryStream txtStream = new MemoryStream(Encoding.UTF8.GetBytes(txtContent)))
                 {
                     // Create a MemoryStream to store the zipped content
                     using (MemoryStream zipStream = new MemoryStream())
@@ -55,12 +55,12 @@ namespace HttpFunctionApp
                         // Create a ZipArchive to write to the zip stream
                         using (ZipArchive zip = new ZipArchive(zipStream, ZipArchiveMode.Create, leaveOpen: true))
                         {
-                            // Add the CSV file to the zip archive
+                            // Add the text file to the zip archive
                             // var entry = zip.CreateEntry("dummy.csv", CompressionLevel.Optimal);
                             var entry = zip.CreateEntry("dummy.txt", CompressionLevel.Optimal);
                             using (Stream entryStream = entry.Open())
                             {
-                                await csvStream.CopyToAsync(entryStream);
+                                await txtStream.CopyToAsync(entryStream);
                             }
                         }
 
@@ -70,10 +70,11 @@ namespace HttpFunctionApp
                         // Upload the zipped content to Azure Blob Storage
                         // var options = new BlockBlobOpenWriteOptions { Overwrite = overwrite };
                         var blobClient = tenantContainerClient.GetBlobClient("sample.zip");
-                        using (var blobStream = await blobClient.OpenWriteAsync(true))
-                        {
-                            await zipStream.CopyToAsync(blobStream);
-                        }
+                        // using (var blobStream = await blobClient.OpenWriteAsync(true))
+                        // {
+                        //     await zipStream.CopyToAsync(blobStream);
+                        // }
+                        await blobClient.UploadAsync(zipStream, true);
                     }
                 }
             } catch (Exception ex)
