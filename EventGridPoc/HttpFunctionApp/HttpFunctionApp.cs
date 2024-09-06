@@ -12,6 +12,7 @@ using System.Data.SqlTypes;
 using Azure.Storage.Blobs.Models;
 using System.IO.Compression;
 using System.Text;
+using System.Collections.Generic;
 
 namespace HttpFunctionApp
 {
@@ -75,7 +76,18 @@ namespace HttpFunctionApp
                         // {
                         //     await zipStream.CopyToAsync(blobStream);
                         // }
-                        await blobClient.UploadAsync(zipStream, true);
+                        // Set metadata dictionary
+                        var metadata = new Dictionary<string, string>
+                        {
+                            { "tenantId", "30c665d7-f159-4825-860a-562ee9e1b64a" }
+                        };
+
+                        // Create BlobUploadOptions with metadata
+                        var uploadOptions = new BlobUploadOptions
+                        {
+                            Metadata = metadata
+                        };
+                        await blobClient.UploadAsync(zipStream, uploadOptions);
                     }
                 }
             } catch (Exception ex)
