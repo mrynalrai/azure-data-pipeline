@@ -43,6 +43,24 @@ namespace ListenEventGrid
                 {
                     var blobUrl = (string)JObject.Parse(eventGridEvent.Data.ToString())["url"];
                     log.LogInformation($"Blob created event received. Blob URL: {blobUrl}");
+                    #region Creating BlobClient
+                    // Create BlobClient using the blob URL
+                    var blobClientByUrl = new BlobClient(new Uri(blobUrl));
+
+                    // Fetch blob properties and metadata
+                    var properties = await blobClientByUrl.GetPropertiesAsync();
+                    var metadata = properties.Value.Metadata;
+
+                    // Check if metadata contains 'tenantId' and log it
+                    if (metadata.TryGetValue("tenantId", out string tenantId))
+                    {
+                        log.LogInformation($"Metadata tenantId: {tenantId}");
+                    }
+                    else
+                    {
+                        log.LogWarning("Metadata 'tenantId' not found.");
+                    }
+                    #endregion
 
                     // Create BlobContainerClient 
                     log.LogInformation("Creating Blob Container Client");
